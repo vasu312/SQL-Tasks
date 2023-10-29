@@ -1,0 +1,100 @@
+-- Task 1 ANSWERS
+
+-- Problem # 1:
+-- Write a query to display the member id, member name, city and membership status who are all having life
+-- time membership. 
+select MEMBER_ID ,MEMBER_NAME,CITY,MEMBERSHIP_STATUS from LMS_MEMBERS where MEMBERSHIP_STATUS="Permanent";
+
+-- Problem # 3:
+-- Write a query to display the member id, member name who have taken the book with book code 'BL000002'
+select LMS_MEMBERS.MEMBER_ID,LMS_MEMBERS.MEMBER_NAME,LMS_BOOK_ISSUE.BOOK_CODE from LMS_MEMBERS
+JOIN LMS_BOOK_ISSUE
+ON LMS_MEMBERS.MEMBER_ID=LMS_BOOK_ISSUE.MEMBER_ID
+where LMS_BOOK_ISSUE.BOOK_CODE="BL000002"
+
+-- Problem # 4:
+-- Write a query to display the book code, book title and author of the books whose author name begins    with 'P'. 
+SELECT BOOK_CODE,BOOK_TITLE,AUTHOR FROM LMS_BOOK_DETAILS
+WHERE AUTHOR LIKE "P%"
+
+-- Problem # 5:
+-- Write a query to display the total number of Java books available in library with alias name ‘NO_OF_BOOKS’.
+SELECT BOOK_TITLE,count(BOOK_TITLE) NO_OF_BOOKS
+FROM LMS_BOOK_DETAILS
+where BOOK_TITLE LIKE "JAVA%"
+GROUP BY BOOK_TITLE
+
+-- Problem # 6:
+-- Write a query to list the category and number of books in each category with alias name ‘NO_OF_BOOKS’.
+select BOOK_TITLE,count(BOOK_TITLE) NO_OF_BOOKS
+FROM  LMS_BOOK_DETAILS
+GROUP BY BOOK_TITLE
+
+-- Problem # 7:
+-- Write a query to display the number of books published by "Prentice Hall” with the alias name      “NO_OF_BOOKS”
+SELECT PUBLICATION, count(PUBLICATION) NO_OF_BOOKS  from LMS_BOOK_DETAILS
+WHERE PUBLICATION="Prentice Hall"
+group by PUBLICATION
+
+-- Problem # 8:
+-- Write a query to display the book code, book title of the books which are issued on the date "1st April 2012	".
+select LMS_BOOK_ISSUE.BOOK_CODE,LMS_BOOK_DETAILS.BOOK_TITLE from LMS_BOOK_ISSUE
+JOIN LMS_BOOK_DETAILS
+ON LMS_BOOK_DETAILS.BOOK_CODE =LMS_BOOK_ISSUE.BOOK_CODE
+WHERE DATE_ISSUE="2012-04-01"
+
+-- Problem # 9:
+-- Write a query to display the member id, member name, date of registration and expiry date of the members whose membership expiry date is before APR 2013.
+
+SELECT MEMBER_ID,MEMBER_NAME,DATE_REGISTER,DATE_EXPIRE FROM LMS_MEMBERS
+where DATE_EXPIRE<"2013-04-01"
+
+-- Problem # 10:
+-- write a query to display the member id, member name, date of registration, membership status of the members who registered before "March 2012" and membership status is "Temporary"
+SELECT MEMBER_ID,MEMBER_NAME,DATE_REGISTER,MEMBERSHIP_STATUS FROM LMS_MEMBERS
+WHERE DATE_REGISTER<"2012-03-01" AND MEMBERSHIP_STATUS="Temporary"
+
+-- Problem #11:
+-- Write a query to display the member id, member name who’s City is CHENNAI or DELHI. 
+
+-- Hint: Display the member name in title case with alias name 'Name'.
+SELECT MEMBER_ID,MEMBER_NAME,CITY FROM LMS_MEMBERS
+WHERE CITY="CHENNAI" OR CITY="DELHI"
+
+
+-- Problem #12:
+-- Write a query to concatenate book title, author and display in the following format.Book_Title_is_written_by_Author 
+SELECT CONCAT(BOOK_TITLE,'_is_written_by_',AUTHOR) AS 'BOOK_WRITTEN_BY'  FROM LMS_BOOK_DETAILS
+
+-- Example: Let Us C_is_written_by_Yashavant Kanetkar
+-- Hint: display unique books. Use “BOOK_WRITTEN_BY” as alias name.
+
+
+
+-- Problem #13:
+-- Write a query to display the average price of books which is belonging to ‘JAVA’ category with alias name“AVERAGEPRICE”.
+select AVG(PRICE) AS AVERAGEPRICE
+from LMS_BOOK_DETAILS
+WHERE CATEGORY ="JAVA"
+
+
+-- Problem #14:
+-- Write a query to display the supplier id, supplier name and email of the suppliers who are all having gmail account.
+SELECT SUPPLIER_ID,SUPPLIER_NAME,EMAIL FROM LMS_SUPPLIERS_DETAILS
+WHERE EMAIL LIKE "%gmail%"
+
+
+-- Problem#15:
+-- Write a query to display the supplier id, supplier name and contact details. Contact details can be either phone number or email or address with alias name “CONTACTDETAILS”. If phone number is null then display email, even if email also null then display the address of the supplier. Hint: Use Coalesce function.
+SELECT SUPPLIER_ID ,SUPPLIER_NAME,COALESCE(ADDRESS,CONTACT,EMAIL) AS CONTACTDETAILS
+FROM LMS_SUPPLIERS_DETAILS
+
+
+-- Problem#16:
+-- Write a query to display the supplier id, supplier name and contact. If phone number is null then display ‘No’ else display ‘Yes’ with alias name “PHONENUMAVAILABLE”. 
+-- Hint: Use NVL2
+SELECT SUPPLIER_ID ,SUPPLIER_NAME ,CONTACT,
+IF(CONTACT IS NULL,'NO','YES')  AS PHONENUMAVAILABLE
+FROM LMS_SUPPLIERS_DETAILS;
+
+
